@@ -1,14 +1,14 @@
 {
-  "name": "taskcluster-json-template",
+  "name": "json-templater",
   "version": "0.0.0",
   "description": "Simple json/js object template strings",
   "main": "template.js",
   "scripts": {
-    "test": "mocha *_test.js"
+    "test": "./node_modules/.bin/mocha *_test.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/taskcluster/json-template.git"
+    "url": "https://github.com/lightsofapollo/json-templater.git"
   },
   "keywords": [
     "template",
@@ -19,9 +19,9 @@
   "author": "James Lal [:lightsofapollo]",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/taskcluster/json-template/issues"
+    "url": "https://github.com/lightsofapollo/json-templater/issues"
   },
-  "homepage": "https://github.com/taskcluster/json-template",
+  "homepage": "https://github.com/lightsofapollo/json-templater",
   "devDependencies": {
     "mocha": "~1.18.2"
   }

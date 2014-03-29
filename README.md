@@ -1,4 +1,3 @@
-json-template
-=============
+# json-templater
 
 JSON/JS Template utilities
