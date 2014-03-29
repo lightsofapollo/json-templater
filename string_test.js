@@ -1,12 +1,12 @@
-suite('template', function() {
+suite('string', function() {
   var assert = require('assert');
-  var subject = require('./template');
+  var subject = require('./string');
 
   suite('#replace', function() {
 
     function verify(title, input, output) {
       test(title, function() {
-        var result = subject.replace.apply(subject, input);
+        var result = subject.apply(subject, input);
         assert.equal(output, result);
       });
     }

@@ -86,7 +86,4 @@ function replace(string, view) {
   return buffer;
 }
 
-module.exports.replace = replace;
-
-function render() {
-}
+module.exports = replace;
