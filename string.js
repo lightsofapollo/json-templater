@@ -1,7 +1,3 @@
-var TEMPLATE_OPEN = '{{';
-var TEMPLATE_CLOSE = '}}';
-var DELIMITER_OFFSET = 2;
-
 /**
 Convert a dotted path to a location inside an object.
 
@@ -40,50 +36,26 @@ function extractValue(path, view) {
   return view;
 }
 
+var REGEX = new RegExp('{{([a-zA-Z.-_0-9]+)}}', 'g');
+var TEMPLATE_OPEN = '{{';
+
 /**
-Perform a string substitution based on tokens in the string.
+NOTE: I also wrote an implementation that does not use regex but it is actually slower
+      in real world usage and this is easier to understand.
 
-XXX: This _could_ be done very easily with string.replace but it is slow
-     and I am stubborn... Who knows maybe this can be used somewhere
-     where performance is sensitive.
-
-NOTE: tokens with corresponding values are skipped and left untouched.
+@param {String} input template.
+@param {Object} view details.
 */
-function replace(string, view) {
-  var idx = 0;
-  var nextOpenToken;
-  // strictly appending a string is fast
-  var buffer = '';
-
-  while (
-    (nextOpenToken = string.indexOf(TEMPLATE_OPEN, idx)) !== -1
-  ) {
-    // add the non-template variables
-    buffer += string.substring(idx, nextOpenToken);
-
-    // find the closing token
-    var nextCloseToken = string.indexOf(TEMPLATE_CLOSE, nextCloseToken + DELIMITER_OFFSET);
-    // location in the view which this token relates to
-    var objPath = string.substring(
-      nextOpenToken + DELIMITER_OFFSET,
-      nextCloseToken
-    );
-    // value in the object path
-    var value = extractValue(objPath, view);
-    // move forward in the string for the next iteration
-
-    if (value !== undefined) {
-      // if we have a value do the replace
-      buffer += value;
-    } else {
-      // otherwise leave it for some other template engine to deal with
-      buffer += string.substring(nextOpenToken, nextCloseToken + DELIMITER_OFFSET);
+function replace(input, view) {
+  // optimization to avoid regex calls (indexOf is strictly faster)
+  if (input.indexOf(TEMPLATE_OPEN) === -1) return input;
+  return input.replace(REGEX, function(whole, path) {
+    var value = extractValue(path, view);
+    if (value) {
+      return value;
     }
-
-    idx = nextCloseToken + DELIMITER_OFFSET;
-  }
-  buffer += string.substring(idx);
-  return buffer;
+    return whole;
+  });
 }
 
 module.exports = replace;

@@ -44,9 +44,11 @@ function walk(input, handler) {
   }
 }
 
-function render(object, view) {
+function render(object, view, handler) {
+  handler = handler || renderString;
+
   return walk(object, function(value) {
-    return renderString(value, view);
+    return handler(value, view);
   });
 }
 
