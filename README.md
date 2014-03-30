@@ -1,4 +1,4 @@
-# json-templater
+# json-templater [![Build Status](https://travis-ci.org/lightsofapollo/json-templater.svg?branch=master)](https://travis-ci.org/lightsofapollo/json-templater)
 
 JSON template(r) is an opinionated simple way to do mustache style
 template replacements on your js and json objects (and of course
