@@ -20,6 +20,9 @@ Convert a dotted path to a location inside an object.
 @param {Object} view for the data.
 */
 function extractValue(path, view) {
+  // Short circuit for direct matches.
+  if (view && view[path]) return view[path];
+
   var parts = path.split('.');
 
   while (

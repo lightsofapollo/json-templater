@@ -63,6 +63,12 @@ suite('string', function() {
   );
 
   verify(
+    'dots as key names',
+    ['{{woot.bar.baz}}', { 'woot.bar.baz': 'yup' }],
+    'yup'
+  );
+
+  verify(
     'array view',
     [
       'do what {{fields.0}}',
