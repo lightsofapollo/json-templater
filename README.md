@@ -38,7 +38,7 @@ object(
 // result
 
 {
-  magic_key_magic: {
+  magic_key_key: {
     key: 'interpolation is nice value'
   }
 }
