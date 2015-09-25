@@ -28,12 +28,6 @@ template functions on keys _and_ values which most clone things don't do.
 */
 function walk(input, handler) {
   switch (typeof input) {
-    // these types cannot be mutated
-    case 'boolean':
-    case 'number':
-    case 'undefined':
-      return input;
-
     // object is slightly special if null we move on
     case 'object':
       if (!input) return input;
@@ -41,6 +35,9 @@ function walk(input, handler) {
 
     case 'string':
       return handler(input);
+    // all other types cannot be mutated
+    default:
+      return input;
   }
 }
 
