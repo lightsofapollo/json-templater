@@ -1,6 +1,6 @@
 {
   "name": "json-templater",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Simple json/js object template strings",
   "main": "template.js",
   "scripts": {
