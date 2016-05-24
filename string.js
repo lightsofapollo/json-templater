@@ -56,7 +56,7 @@ function replace(input, view) {
   var replaced = input.replace(REGEX, function(whole, path) {
     var value = extractValue(path, view);
     if (value) {
-      if (Array.isArray(value)) {
+      if (typeof value === 'object') {
         result = value;
         return;
       } else {
