@@ -52,13 +52,20 @@ NOTE: I also wrote an implementation that does not use regex but it is actually 
 function replace(input, view) {
   // optimization to avoid regex calls (indexOf is strictly faster)
   if (input.indexOf(TEMPLATE_OPEN) === -1) return input;
-  return input.replace(REGEX, function(whole, path) {
+  var result;
+  var replaced = input.replace(REGEX, function(whole, path) {
     var value = extractValue(path, view);
     if (value) {
-      return value;
+      if (typeof value === 'object') {
+        result = value;
+        return;
+      } else {
+        return value;
+      }
     }
     return whole;
   });
+  return result ? result : replaced;
 }
 
 module.exports = replace;
