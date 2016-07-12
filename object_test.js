@@ -83,4 +83,40 @@ suite('object', function() {
     [{ xfoo: 1 }, {}],
     { xfoo: 1 }
   );
+
+  verify(
+    'nested arrays',
+    [
+      '{{some.arrays}}',
+      { some: { arrays: [1, [2, [{3: 4}]]] } }
+    ],
+    [1, [2, [{3: 4}]]]
+  );
+
+  verify(
+    'nested objects', [
+      '{{some.object}}',
+      { some: { object: {3: {4: 5}} } }
+    ],
+    {3: {4: 5}}
+  );
+
+  verify(
+    'nested arrays in objects and objects in arrays',
+    [
+      {
+        'arrays{{some.arrays.0}}': '{{some.arrays}}',
+        'object{{some.arrays.1.0}}': '{{some.object}}'
+      }, {
+        some: {
+          arrays: [1, [2, [{ 3: 4 }]]],
+          object: { 3: { 4: 5 }}
+        }
+      }
+    ], {
+      arrays1: [1, [2, [{ 3: 4 }]]],
+      object2: { 3: { 4: 5 }}
+    }
+  );
+
 });
