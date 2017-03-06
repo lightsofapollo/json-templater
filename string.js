@@ -53,19 +53,20 @@ function replace(input, view) {
   // optimization to avoid regex calls (indexOf is strictly faster)
   if (input.indexOf(TEMPLATE_OPEN) === -1) return input;
   var result;
-  var replaced = input.replace(REGEX, function(whole, path) {
+  var replaced = input.replace(REGEX, function(original, path) {
     var value = extractValue(path, view);
-    if (value) {
-      if (typeof value === 'object') {
-        result = value;
-        return;
-      } else {
-        return value;
-      }
+    if (undefined === value || null === value) {
+      return original;
     }
-    return whole;
+
+    if (typeof value === 'object') {
+      result = value;
+      return;
+    }
+
+    return value;
   });
-  return result ? result : replaced;
+  return (undefined !== result) ? result : replaced;
 }
 
 module.exports = replace;

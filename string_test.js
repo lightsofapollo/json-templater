@@ -36,6 +36,12 @@ suite('string', function() {
   );
 
   verify(
+    'nested token false value',
+    ['{{foo.bar}}', { foo: { bar: false} }],
+    'false'
+  );
+
+  verify(
     'replace in the middle of string',
     [
       'foo bar {{baz}} qux',
