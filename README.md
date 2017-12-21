@@ -45,6 +45,76 @@ object(
 
 ```
 
+### Custom render
+
+You can override default renderer using the third argument in `object` (`json-templater/string` is default):
+
+`template.json:`
+```json
+{
+  "magic": {
+    "key": "interpolation is nice {{value}}"
+  }
+}
+```
+
+```js
+var object = require('json-templater/object');
+
+object(
+  require('./template.json'),
+  { magic: 'key', value: 'value' },
+  function (value, data, key) {
+    return value;
+  }
+);
+
+// result
+
+{
+  "magic": {
+    "key": "interpolation is nice {{value}}"
+  }
+}
+```
+
+#### key reference
+
+Handler function gets three arguments:
+
+- `value`: value which is about to be handled
+- `data`: initial template data object
+- `key`: key corresponding to the value
+
+Using this data some complex logic could be implemented, for instance:
+
+```js
+var object = require('json-templater/object');
+var string = require('json-templater/string');
+
+object(
+  require('./template.json'),
+  { magic: 'key', value: 'value' },
+  function (value, data, key) {
+    // custom renderer for some special value
+    if (key === 'specialKey') {
+      return 'foo';
+    }
+    // usual string renderer
+    return string(value, data);
+  }
+);
+
+// result
+
+{
+  magic: {
+    specialKey: "foo",
+    key: "interpolation is nice value"
+  }
+}
+```
+
 ## LICENSE
 
 Copyright (c) 2014 Mozilla Foundation
