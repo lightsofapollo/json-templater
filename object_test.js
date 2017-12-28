@@ -1,8 +1,9 @@
 suite('object', function() {
   var subject = require('./object');
+  var renderString = require('./string');
   var assert = require('assert');
 
-  function verify(title, input, output) {
+  function verify(title, input, output, handler) {
     test(title, function() {
       var result = subject.apply(subject, input);
       assert.deepEqual(output, result);
@@ -116,6 +117,31 @@ suite('object', function() {
     ], {
       arrays1: [1, [2, [{ 3: 4 }]]],
       object2: { 3: { 4: 5 }}
+    }
+  );
+
+  verify(
+    'custom handler',
+    [
+      {
+        foo: 'hello from {{foo}}',
+        bar: 'hello from {{bar}}'
+      },
+      {
+        foo: 'foo',
+        bar: 'bar'
+      },
+      function(value, view, key) {
+        // let's render the corresponding value in a different way
+        if (key === 'foo') {
+          return value;
+        }
+        return renderString(value, view);
+      }
+    ],
+    {
+      foo: 'hello from {{foo}}',
+      bar: 'hello from bar'
     }
   );
 

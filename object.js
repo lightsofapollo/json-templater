@@ -5,7 +5,7 @@ function walkObject(object, handler) {
   var result = {};
 
   for (var key in object) {
-    result[walk(key, handler)] = walk(object[key], handler);
+    result[walk(key, handler, null)] = walk(object[key], handler, key);
   }
 
   return result;
@@ -13,7 +13,7 @@ function walkObject(object, handler) {
 
 function walkArray(array, handler) {
   return array.map(function(input) {
-    return walk(input, handler);
+    return walk(input, handler, null);
   });
 }
 
@@ -25,8 +25,9 @@ template functions on keys _and_ values which most clone things don't do.
 
 @param {Object} input object to walk and duplicate.
 @param {Function} handler handler to invoke on string types.
+@param {?String} [key] key corresponding to input, if the latter is a value in object
 */
-function walk(input, handler) {
+function walk(input, handler, key) {
   switch (typeof input) {
     // object is slightly special if null we move on
     case 'object':
@@ -34,7 +35,7 @@ function walk(input, handler) {
       return walkObject(input, handler);
 
     case 'string':
-      return handler(input);
+      return handler(input, key);
     // all other types cannot be mutated
     default:
       return input;
@@ -44,9 +45,9 @@ function walk(input, handler) {
 function render(object, view, handler) {
   handler = handler || renderString;
 
-  return walk(object, function(value) {
-    return handler(value, view);
-  });
+  return walk(object, function(value, key) {
+    return handler(value, view, key);
+  }, null);
 }
 
 module.exports = render;
